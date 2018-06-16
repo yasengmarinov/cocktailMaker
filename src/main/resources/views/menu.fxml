@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml"
+            xmlns="http://javafx.com/javafx"
+            fx:controller="cocktailMaker.ui.controllers.MenuController"
+            prefHeight="25.0" prefWidth="800.0">
+    <MenuBar prefHeight="25" prefWidth="800.0">
+        <menus>
+            <Menu text="Dispensers">
+                <items>
+                    <MenuItem fx:id="dispensers_item" text="Set Dispensers"/>
+                    <MenuItem fx:id="ingredients_item" text="Add/Remove Ingredients"/>
+                </items>
+            </Menu>
+            <Menu text="Users">
+                <items>
+                    <MenuItem fx:id="users_item" text="Add/Remove Users"/>
+                </items>
+            </Menu>
+            <Menu text="Cocktails">
+                <items>
+                    <MenuItem fx:id="cocktailGroup_item" text="Add/Remove Groups"/>
+                    <MenuItem fx:id="cocktail_item" text="Add/Remove Cocktails"/>
+                </items>
+            </Menu>
+            <Menu text="Logs">
+                <items>
+                    <MenuItem fx:id="cocktailLog_item" text="Cocktail Log"/>
+                    <MenuItem fx:id="ingredientsLog_item" text="Ingredients Log"/>
+                </items>
+            </Menu>
+            <Menu text="Log Off">
+                <items>
+                    <MenuItem fx:id="logoff_item" text="Log Off"/>
+                </items>
+            </Menu>
+            <Menu text="Exit">
+                <items>
+                    <MenuItem fx:id="exit_item" text="Exit"/>
+                </items>
+            </Menu>
+        </menus>
+    </MenuBar>
+</AnchorPane>
