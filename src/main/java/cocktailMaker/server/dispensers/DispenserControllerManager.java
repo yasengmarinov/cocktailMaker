@@ -38,19 +38,19 @@ public class DispenserControllerManager {
 
     public void init() {
 
-
         logger.info("Initializing Dispenser Controller Manager");
 
         Map<Integer, DispenserConfig> dispenserMap = initDispenserMap(properties);
 
         persistDispensersInDB(dispenserMap);
 
+        boolean inverseCurrent = Boolean.valueOf(properties.getProperty("current.inverse", "false"));
         for (DispenserConfig config : dispenserMap.values()) {
             DispenserController controller;
             if (isTestModeEnabled(properties)) {
                 controller = new MockPumpController(config);
             } else {
-                controller = new PumpController(config);
+                controller = new PumpController(config, inverseCurrent);
             }
             dispenserControllerMap.put(config.getId(), controller);
         }

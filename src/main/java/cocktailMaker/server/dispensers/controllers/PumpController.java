@@ -14,9 +14,12 @@ public class PumpController implements DispenserController {
 
     private final GpioPinDigitalOutput pinOutput;
     private final int id;
+    private final boolean inverseCurrent;
 
-    public PumpController(DispenserConfig config) {
-        id = config.getId();
+    public PumpController(DispenserConfig config, boolean inverseCurrent) {
+        this.id = config.getId();
+        this.inverseCurrent = inverseCurrent;
+
         String pinName = String.format("GPIO %d", config.getPin());
         final GpioController gpio = GpioFactory.getInstance();
         Pin pin = RaspiPin.getPinByName(pinName);
@@ -27,17 +30,29 @@ public class PumpController implements DispenserController {
             logger.info(String.format("Configuring pump %d with %s", id, pinName));
             pinOutput = gpio.provisionDigitalOutputPin(pin);
         }
+        if (inverseCurrent) {
+            logger.info("Setting output to high because of inverse current");
+            pinOutput.high();
+        }
     }
 
     @Override
     public void run() {
         logger.info(String.format("Pump %d started on pin %s", id, pinOutput.getName()));
-        pinOutput.high();
+        if (!inverseCurrent) {
+            pinOutput.high();
+        } else {
+            pinOutput.low();
+        }
     }
 
     @Override
     public void stop() {
         logger.info(String.format("Pump %d stopped on pin $s", id, pinOutput.getName()));
-        pinOutput.low();
+        if (!inverseCurrent) {
+            pinOutput.low();
+        } else {
+            pinOutput.high();
+        }
     }
 }

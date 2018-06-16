@@ -7,10 +7,7 @@ import cocktailMaker.ui.controls.objects.CocktailGroupButton;
 import com.google.inject.Inject;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
@@ -129,6 +126,14 @@ public class MakeCocktailController extends GuiceInjectedController {
     }
 
     private void makeCocktail(Cocktail cocktail) {
+        Dialog<ButtonType> confirmDialog = new Dialog<>();
+        confirmDialog.setContentText( String.format("Make cocktail %s?", cocktail.getName()));
+        confirmDialog.getDialogPane().getButtonTypes().add(ButtonType.YES);
+        confirmDialog.getDialogPane().getButtonTypes().add(ButtonType.NO);
+        confirmDialog.showAndWait();
+        if (confirmDialog.getResult() != ButtonType.YES) {
+            return;
+        }
         if (cocktailMaker.validate(cocktail)) {
             logger.info("Begin making " + cocktail.getName());
             main_pane.fireEvent(new CocktailEvent(CocktailEvent.BEGIN, cocktail));
